@@ -40,6 +40,15 @@ df['totalPrice'] = df['quantity'] * df['price']
 # Display the first few rows to verify the new column
 df.head()
 
+#Convert the price and totalPrice as Rupiah currency
+# Set locale to Indonesian
+locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')
+
+# Format the monetary values as Rupiah currency
+df['price'] = df['price'].apply(lambda x: locale.currency(x, grouping=True))
+df['totalPrice'] = df['totalPrice'].apply(lambda x: locale.currency(x, grouping=True))
+df.head() 
+
 #Calculate the Sales Weekly
 Sales_weekly = df.resample('w', on='Date').size()
 fig = px.line(df, x=Sales_weekly.index, y=Sales_weekly,
