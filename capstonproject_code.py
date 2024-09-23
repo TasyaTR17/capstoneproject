@@ -33,8 +33,12 @@ item_counts = df.groupby('itemGroup')['itemName'].count()
 # Displaying the counts
 print(item_counts)
 
+def display_products(df):
+    print("\nList of Saleable Products:")
+    print(df)
+
 def select_item_counts(df):
-    item_group = input("Enter the item group: ").lower()
+    item_group = input("Enter the item group: ").lower() 
     df['itemGroup'] = df['itemGroup'].str.lower()
     sku_counts = df[df['itemGroup'] == item_group].groupby('itemGroup').size().reset_index(name='count')
     
@@ -75,34 +79,6 @@ def process_item_selection(df, cart):
     else:
         print("No data available for the selected item group.")
 
-def main(df):
-    cart = []
-    while True:
-        process_item_selection(df, cart)
-        
-        # Ask for user to add more product
-        add_more = input("Do you want to add more products? (yes/no): ").lower()
-        if add_more != 'yes':
-            print("Okay, stopping.")
-            break
-    
-    if cart:
-        print("\n----- Bill -----")
-        print(f"{'Item':<15}{'Quantity':<10}{'Total Price':<10}")
-        print("-" * 35)
-        for item in cart:
-            print(f"{item['itemName'].capitalize():<15}{item['quantity']:<10}{float(item['totalPrice']):<10.2f}")
-        total_amount = sum(float(item['totalPrice']) for item in cart)
-        print("-" * 35)
-        print(f"{'Total Amount':<25}{total_amount:.2f}")
-
-        # Call process_payment with total_amount
-        if process_payment(total_amount):
-            update_stock(df, cart)
-            print("\nUpdated stock:")
-            print(df)  # Print the DataFrame to see the updated stock
-
-# Select payment method
 def process_payment(total_amount):
     print("Select payment method:")
     print("1. Cashless")
@@ -122,18 +98,22 @@ def process_payment(total_amount):
             return False
     
     elif payment_method == "2":
-        cash = float(input("Enter the amount of cash: "))
-        if cash < total_amount:
-            print("Transaction failed. Insufficient cash.")
+        try:
+            cash = float(input("Enter the amount of cash: "))
+            if cash < total_amount:
+                print("Transaction failed. Insufficient cash.")
+                return False
+            elif cash == total_amount:
+                print("Transaction successful!")
+                return True
+            else:
+                change = cash - total_amount
+                print(f"Transaction successful! Your change is {change:.2f}")
+                return True
+        except ValueError:
+            print("Invalid amount entered. Please enter a valid number.")
             return False
-        elif cash == total_amount:
-            print("Transaction successful!")
-            return True
-        else:
-            change = cash - total_amount
-            print(f"Transaction successful! Your change is {change:.2f}")
-            return True
-    
+        
     else:
         print("Invalid payment method selected.")
         return False
@@ -145,4 +125,65 @@ def update_stock(df, cart):
         df.loc[df['itemName'] == item_name, 'stock'] -= quantity_purchased
     print("Stock updated successfully.")
 
-main(df)
+#Create the main features for user to shopping
+def main(df):
+    cart = []
+    while True:
+        print("\nMenu:")
+        print("1. View Products")
+        print("2. Make an Order")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            display_products(df)
+        elif choice == '2':
+            process_item_selection(df, cart)
+            add_more = input("Do you want to add more products? (yes/no): ").lower()
+            if add_more != 'yes':
+                if cart:
+                    print("\n----- Bill -----")
+                    print(f"{'Item':<15}{'Quantity':<10}{'Total Price':<10}")
+                    print("-" * 35)
+                    for item in cart:
+                        print(f"{item['itemName'].capitalize():<15}{item['quantity']:<10}{float(item['totalPrice']):<10.2f}")
+                    total_amount = sum(float(item['totalPrice']) for item in cart)
+                    print("-" * 35)
+                    print(f"{'Total Amount':<25}{total_amount:.2f}")
+
+                    if process_payment(total_amount):
+                        update_stock(df, cart)
+                        print("\nUpdated stock:")
+                        print(df)
+                        break  # Stop the program after updating the stock
+        elif choice == '3':
+            print("Thank you for shopping!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main(df)
+
+# Initialize an empty DataFrame to store membership data
+membership_df = pd.DataFrame(columns=['Name', 'Phone Number'])
+
+def ask_membership():
+    response = input("Do you want to create a membership? (yes/no): ").strip().lower()
+    if response == 'yes':
+        name = input("Please enter your name: ").strip()
+        phone_number = input("Please enter your phone number: ").strip()
+        # Add the new member to the DataFrame using pd.concat
+        global membership_df
+        new_member = pd.DataFrame({'Name': [name], 'Phone Number': [phone_number]})
+        membership_df = pd.concat([membership_df, new_member], ignore_index=True)
+        print("Thank you for becoming a member!")
+    else:
+        print("Thank you for shopping with us!")
+
+# Example usage after a transaction
+ask_membership()
+
+# Display the membership DataFrame
+membership_df.columns = ['Name', 'Phone Number']
+membership_df.head()
