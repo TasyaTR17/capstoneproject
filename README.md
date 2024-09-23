@@ -37,8 +37,7 @@ This project aims to develop a comprehensive retail shopping application designe
 # Flowchart
 
 You can see the flow of this project from this flowchart:
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/69fe9773-3150-479c-b0f8-66d5c87b02ff/image.png)
+![alt text](readme_pict/flowchart.jpg)
 
 # Code Explanation
 
@@ -73,7 +72,7 @@ print(df.head())
 
 Code output:
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/8bfd2578-59c2-4a74-8dd9-fa0b16e35370/image.png)
+![alt text](readme_pict/output1.png)
 
 Check the data type and do the data cleaning
 
@@ -88,9 +87,9 @@ df.head()
 
 Code output:
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/0224b6bc-1bd1-4cbf-9a4c-cf0a620e3103/image.png)
+![alt text](readme_pict/output2.png)
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/b22e25bc-29e9-4dbd-a61b-79b6922fde2a/image.png)
+![alt text](readme_pict/output3.png)
 
 Check the missing value
 
@@ -102,7 +101,7 @@ nan_values
 
 The output
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/6735c7fe-49de-4fbc-b67d-3d0458beb8d4/image.png)
+![alt text](readme_pict/output4.png)
 
 The output shows there are 206 rows of missing data at itemID, 38678 rows of missing data for itemGroup and ItemName. And 192 rows of missing data for stock and price.
 
@@ -121,7 +120,7 @@ df.info()  # They are in correct datatype now
 
 The output
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/d5d00693-d86b-4b27-94f4-3f5b080de098/image.png)
+![alt text](readme_pict/output5.png)
 
 Now we will make the the application shopping menu
 
@@ -246,7 +245,6 @@ main(df)
 ```
 
 The output
+![alt text](readme_pict/output6.png)
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/5afd78ed-7c28-403d-ad07-8037bf09aa11/image.png)
-
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/ea096081-7ff6-43d5-98cf-0d94e0a01e50/b6fac7af-0910-4d88-ab74-ce4e77716e37/image.png)
+![alt text](readme_pict/output7.png)
